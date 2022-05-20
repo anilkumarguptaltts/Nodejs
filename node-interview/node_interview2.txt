@@ -1,0 +1,738 @@
+Question : Object.assign method?
+Answer : 
+==>Object.assign() method is used for cloning an object.
+==>Object.assign() method is used used to merge objects with same properties.
+Object.assign(target, ...source)
+
+const obj1={ a:1, b:2, c:3}
+const obj2={b:20, c:20}
+const obj3={c:30}
+const new_obj= Object.assign({},obj1,obj2,obj3)
+console.log(new_obj); //Object { a:10, b:20, c:30 }
+----------------------------------------------------------------------------------------
+Question : Type script vs javascript ?
+Answer :
+
+1) Difference between TypeScript and JavaScript:
+
+TypeScript is known as an Object-oriented programming language whereas JavaScript is a scripting language.
+TypeScript has a feature known as Static typing but JavaScript does not support this feature.
+TypeScript supports Interfaces but JavaScript does not.
+
+2) Advantages of using TypeScript over JavaScript 
+TypeScript always points out the compilation errors at the time of development (pre-compilation). Because of this getting runtime errors is less likely, whereas JavaScript is an interpreted language.
+TypeScript supports static/strong typing. This means that type correctness can be checked at compile time. This feature is not available in JavaScript.
+TypeScript is nothing but JavaScript and some additional features i.e. ES6 features. It may not be supported in your target browser but the TypeScript compiler can compile the .ts files into ES3, ES4, and ES5 also.
+
+3) Disadvantages of using TypeScript over JavaScript
+Generally, TypeScript takes time to compile the code.
+----------------------------------------------------------------------------------------
+Question : What is recursion in programing language ?
+Answer : function add(number){
+    if(number<=0){
+        return 0;
+    }else{
+        return number + add(number-1)
+    }
+}
+//----------------------------Prime no program with get in nodejs-----------------------------
+const express = require('express')
+const app = express()
+const port = 3000
+var fs = require('fs');
+
+function listPrimes( nPrimes ) {
+    var primes = [];
+    for( var n = 2;  nPrimes > 0;  n++ ) {
+        if( isPrime(n) ) {
+            primes.push( n );
+            --nPrimes;
+        }
+    }
+    return primes;
+}
+
+function isPrime( n ) {
+    var max = Math.sqrt(n);
+    for( var i = 2;  i <= max;  i++ ) {
+        if( n % i === 0 )
+            return false;
+    }
+    return true;
+}
+
+app.get('/list', (req, res) => {    
+    const numb =  listPrimes(100).map(item => {
+            return item;
+    });
+    res.send(numb +'/n');  
+})
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+//----------------------------------------------------------------------------------------
+How can write res with status
+
+var express = require('express');
+const path = require('path');
+var app = express();
+var PORT = 3001;
+
+//with middleware
+app.use('/', function(req, res, next){
+	res.status(200).send("Status Working");
+next();
+});
+
+app.get('/', function(req, res){
+	console.log("Home Page!")
+	res.send();
+});
+
+app.listen(PORT, function(err){
+	if (err) console.log(err);
+	console.log("Server listening on PORT", PORT);
+});
+
+//-----------------------------------Prime no--------------------------------------------
+const express = require('express')
+const app = express()
+const port = 3000
+var fs = require('fs');
+
+function listPrimes( nPrimes ) {
+    var primes = [];
+    for( var n = 2;  nPrimes > 0;  n++ ) {
+        if( isPrime(n) ) {
+            primes.push( n );
+            --nPrimes;
+        }
+    }
+    return primes;
+}
+
+function isPrime( n ) {
+    var max = Math.sqrt(n);
+    for( var i = 2;  i <= max;  i++ ) {
+        if( n % i === 0 )
+            return false;
+    }
+    return true;
+}
+
+app.get('/list', (req, res) => {    
+    const numb =  listPrimes(100).map(item => {
+            return item;
+    });
+    res.send(numb +'/n');  
+})
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+//------------------------------------multer upload files--------------------------------------------
+const express = require('express')
+const bodyParser= require('body-parser')
+const multer = require('multer');
+const app = express();
+app.use(bodyParser.urlencoded({extended: true}))
+var fs = require('fs');
+var upload = multer({ storage: storage })
+
+//CREATE EXPRESS APP
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+  })   
+ 
+  // ROUTES
+  app.get('/',function(req,res){
+    res.sendFile(__dirname + '/index.html');   
+  });
+
+  app.get('/photos', (req, res) => {
+      db.collection('quotes').find().toArray((err, result) => {  
+        const imgArray= result.map(element => element._id);
+        console.log(imgArray);  
+    if (err) return console.log(err)
+    res.send(imgArray)
+  
+    })
+})
+
+  app.post('/uploadfile', upload.single('myFile'), (req, res, next) => {
+    var img = fs.readFileSync(req.file.path);
+    var encode_image = img.toString('base64');
+    // Define a JSONobject for the image attributes for saving to database     
+    var finalImg = {
+         contentType: req.file.mimetype,
+         image:  new Buffer(encode_image, 'base64')
+      };
+     
+   db.collection('quotes').insertOne(finalImg, (err, result) => {
+       console.log(result)    
+       if (err) return console.log(err)    
+       console.log('saved to database')
+       res.redirect('/')
+     })    
+  })
+//ROUTES WILL GO HERE
+// app.get('/', function(req, res) {
+//     res.json({ message: 'WELCOME' });   
+// });
+
+
+const MongoClient = require('mongodb').MongoClient
+const myurl = 'mongodb://localhost:27017';
+ 
+MongoClient.connect(myurl, (err, client) => {
+  if (err) return console.log(err)
+  db = client.db('test') 
+  app.listen(3004, () => {
+    console.log('listening on 3004')
+  })
+})
+ 
+// app.listen(3002, () => console.log('Server started on port 3002'));
+
+//-----------------------------------send Email------------------------------------
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'youremail@gmail.com',
+    pass: 'yourpassword'
+  }
+});
+
+var mailOptions = {
+  from: 'youremail@gmail.com',
+  to: 'myfriend@yahoo.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+//-----------------------------------APP ENV-----------------------------------
+const isDevelopment = (process.env.NODE_ENV === 'development' ? true : false)
+
+if(isDevelopment) {
+    // use verbose logging
+    // use server in development mode
+}
+
+//------------------------------Modules-----------------------------------
+In Node.js, Modules are the blocks of encapsulated code that communicates with an external application on the basis of their related functionality. Modules can be a single file or a collection of multiples files/folders. The reason programmers are heavily reliant on modules is because of their re-usability as well as the ability to break down a complex piece of code into manageable chunks.
+
+Modules are of three types:
+
+==>Core Modules
+==>local Modules
+==>Third-party Modules
+
+1) Core Modules: Node.js has many built-in modules that are part of the platform and comes with Node.js installation. These modules can be loaded into the program by using the require function.
+
+Syntax:
+
+var module = require('module_name');
+The require() function will return a JavaScript type depending on what the particular module returns. The following example demonstrates how to use the Node.js Http module to create a web server.
+
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('Welcome to this page!');
+  res.end();
+}).listen(3000);
+In the above example, the require() function returns an object because the Http module returns its functionality as an object. The function http.createServer() method will be executed when someone tries to access the computer on port 3000. The res.writeHead() method is the status code where 200 means it is OK, while the second argument is an object containing the response headers.
+
+The following list contains some of the important core modules in Node.js:
+
+Core Modules	Description
+http	creates an HTTP server in Node.js.
+assert	set of assertion functions useful for testing.
+fs	used to handle file system.
+path	includes methods to deal with file paths.
+process	provides information and control about the current Node.js process.
+os	provides information about the operating system.
+querystring	utility used for parsing and formatting URL query strings.
+url	module provides utilities for URL resolution and parsing.
+
+2)Local Modules: Unlike built-in and external modules, local modules are created locally in your Node.js application. Let’s create a simple calculating module that calculates various operations. Create a calc.js file that has the following code:
+Filename: calc.js
+exports.add = function (x, y) { 
+    return x + y; 
+}; 
+    
+exports.sub = function (x, y) { 
+    return x - y; 
+}; 
+    
+exports.mult = function (x, y) { 
+    return x * y; 
+}; 
+    
+exports.div = function (x, y) { 
+    return x / y; 
+};
+Since this file provides attributes to the outer world via exports, another file can use its exported functionality using the require() function.
+
+Filename: index.js
+
+var calculator = require('./calc'); 
+    
+var x = 50, y = 10; 
+    
+console.log("Addition of 50 and 10 is "
+                   + calculator.add(x, y)); 
+    
+console.log("Subtraction of 50 and 10 is "
+                   + calculator.sub(x, y)); 
+    
+console.log("Multiplication of 50 and 10 is "
+                   + calculator.mult(x, y)); 
+    
+console.log("Division of 50 and 10 is " 
+                   + calculator.div(x, y)); 
+Step to run this program: Run index.js file using the following command:
+
+node index.js
+Output:
+
+Addition of 50 and 10 is 60
+Subtraction of 50 and 10 is 40
+Multiplication of 50 and 10 is 500
+Division of 50 and 10 is 5
+Note: This module also hides functionality that is not needed outside of the module.
+
+3) Third-party modules: Third-party modules are modules that are available online using the Node Package Manager(NPM). These modules can be installed in the project folder or globally. Some of the popular third-party modules are mongoose, express, angular, and react.
+
+Example:
+
+npm install express
+npm install mongoose
+npm install -g @angular/cli
+
+//================================Nodejs Cons/Props========================
+==> Node.js Advantages: Why use Node.js for developing web apps
+
+->High-performance for Real-time Applications
+->Easy Scalability for Modern Applications
+->Cost-effective with Fullstack JS
+->Community Support to Simplify Development
+->Easy to Learn and Quick to Adapt
+->Helps in building Cross-functional Teams
+->Improves App Response Time and Boosts Performance
+->Reduces Time-to-Market of your applications
+->Extensibility to Meet Customized Requirements
+->Reduces Loading Time by Quick Caching
+->Helps in Building Cross-Platform Applications
+
+==> Node.js Disadvantages: What is Node.js not good for
+
+->Reduces performance when handling Heavy Computing Tasks
+->Node.js invites a lot of code changes due to Unstable API
+->Node.js Asynchronous Programming Model makes it difficult to maintain code
+->Choose Wisely – Lack of Library Support can Endanger your Code
+->High demand with a few Experienced Node.js Developers
+
+ //===============================THreadpool========================
+
+ The single, per-process thread pool provided by libuv creates 4 threads by default. 
+ 
+ The UV_THREADPOOL_SIZE environment variable can be used to alter the number of threads created when the node process starts, up to a maximum value of 1024 (as of libuv version 1.30.0).
+
+When all of these threads are blocked, further requests to use them are queued. The API method to request a thread is called uv_queue_work.
+
+This thread pool is used for any system calls that will result in blocking IO, which includes local file system operations. It can also be used to reduce the effect of CPU intensive operations, as @Andrey mentions.
+
+Non-blocking IO, as supported by most networking operations, don't need to use the thread pool.
+
+If the source code for the database driver you're using is available and you're able to find reference to uv_queue_work then it is probably using the thread pool.
+
+//===============================Buffer========================
+
+Pure JavaScript is great with Unicode encoded strings, but it does not handle binary data very well. It is not problematic when we perform an operation on data at browser level but at the time of dealing with TCP stream and performing a read-write operation on the file system is required to deal with pure binary data. To satisfy this need Node.js use Buffer, So in this article, we are going to know about buffer in Node.js.
+
+Buffers in Node.js: The Buffer class in Node.js is used to perform operations on raw binary data. Generally, Buffer refers to the particular memory location in memory. Buffer and array have some similarities, but the difference is array can be any type, and it can be resizable. Buffers only deal with binary data, and it can not be resizable. Each integer in a buffer represents a byte. console.log() function is used to print the Buffer instance.
+
+Buffer.alloc(size)	It creates a buffer and allocates size to it.
+2	Buffer.from(initialization)	It initializes the buffer with given data.
+3	Buffer.write(data)	It writes the data on the buffer.
+4	toString()	It read data from the buffer and returned it.
+
+
+//===============================REPL========================
+
+A REPL has the following:
+
+A read function, which accepts an expression from the user and parses it into a data structure in memory.
+An eval function, which takes the data structure and evaluates the expression.
+A print function, which prints the result.
+A loop function, which runs the three commands above until terminationG
+
+//===============================PUT/PATCH========================
+==>PUT is a method of modifying resource where the client sends data that updates the entire resource.
+
+==>PATCH is a method of modifying resources where the client sends partial data that is to be updated without modifying the entire data.
+
+//===============================PUT/PATCH========================
+
+4xx: Client Error
+-->400 Bad Request	The server did not understand the request.
+-->401 Unauthorized	The requested page needs a username and a password.
+-->402 Payment Required	You can not use this code yet.
+-->403 Forbidden	Access is forbidden to the requested page.
+-->404 Not Found	The server can not find the requested page.
+
+5xx: Server Error
+-->500 Internal Server Error	The request was not completed. The server met an unexpected condition.
+-->501 Not Implemented	The request was not completed. The server did not support the functionality required.
+-->502 Bad Gateway	The request was not completed. The server received an invalid response from the upstream server.
+-->503 Service Unavailable	The request was not completed. The server is temporarily overloading or down.
+-->504 Gateway Timeout	The gateway has timed out.
+-->505 HTTP Version Not Supported	The server does not support the "http protocol" version.
+
+//===============================Authentication/Authorization========================
+
+-->In simple terms, authentication is the process of verifying who a user is, 
+-->while authorization is the process of verifying what they have access to.
+
+//===============================Module.exports=======================
+-->The module.exports in Node.js is used to export any literal, function or object as a module. 
+-->It is used to include JavaScript file into node.js applications. 
+-->The module is similar to variable that is used to represent the current module and exports is an object that is exposed as a module.
+//===============================fork/spawn=======================
+
+-->fork() method: The child_process.fork() is a special case of child_process.spawn() where the parent and the child process can communicate with each other via send(). 
+-->The fork() allows separation of computation-intensive tasks from the main event loop. 
+-->Child processes are independent of the parent except the IPC communication channel established between them. 
+-->Each process has its own memory, therefore invoking a large number of child processes can affect the performance of the application. The shell option is not supported by child_process.fork().
+
+Syntax:
+
+child_process.fork(modulePath[, args][, options])
+Program :
+
+var cp = require('child_process');
+var child = cp.fork(__dirname + '/sub.js');
+child.on('message', function(m) {
+  console.log('Parent process received:', m);
+});
+child.send({ hello: 'from parent process' });
+child.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
+process.on('message', function(m) {
+  console.log('Child process received:', m);
+});
+process.send({ hello: 'from child process' });
+
+//sub.js
+process.on('message', function(m) {
+console.log('Child process received:', m);
+});
+process.send({ hello: 'from child process' });
+
+//===============================spawn=======================
+-->spawn() method: This method spawns a new process using the given command and the command line arguments in args. 
+-->The ChildProcess instance implements EventEmitterAPI which enables us to register handlers for events on child object directly. 
+-->Some events that can be registered for handling with the ChildProcess are exit, disconnect, error, close and message.
+
+Syntax:
+
+child_process.spawn(command[, args][, options])
+
+Program :
+const { spawn } = require('child_process');
+const child = spawn('dir', ['D:\Test'], {shell: true});
+child.stdout.on('data', (data) => {
+console.log(`stdout: ${data}`);
+});
+
+child.stderr.on('data', (data) => {
+console.error(`stderr: ${data}`);
+});
+child.on('close', (code) => {
+console.log(`child process exited with code ${code}`);
+});
+
+//===============================count paragraph of word=======================
+var str = "      your long string with j many words.";
+var wordCount = str.match(/(\w+)/g).length;
+alert(wordCount); //7
+
+//===============================Longest word of paragraph=======================
+function findLongestWord(str) {
+  var strSplit = str.split(' ');
+  var longestWord = 0;
+  for(var i = 0; i < strSplit.length; i++){
+    if(strSplit[i].length > longestWord){
+	longestWord = strSplit[i].length;
+     }
+  }
+  return longestWord;
+}
+findLongestWord("The quick brown fox jumped over the lazy dog");
+
+//===============================Types of API functions in Node.js=======================
+Types of API functions in Node.js:
+
+Asynchronous, Non-blocking functions
+Synchronous, Blocking functions
+
+Example :
+
+// Requiring inbuilt module
+const fs = require('fs');
+
+//........ASynchronous function..........................................
+fs.readFile('data.json', 'utf8', function (err,data) {
+if (err) {
+	return console.log(err);
+}
+console.log("Below is the Data from Asynchronous function call")
+console.log(data);
+});
+
+//........Synchronous function..........................................
+var data = fs.readFileSync('data.json','utf8');
+console.log("Below is the Data from Synchronous function call")
+console.log(data);
+
+
+//.......Rest Framework for API creation..........................................
+
+Framework : Express
+Performance : Fast. Adds little so nothing to get int he way of Node's raw speed.
+Community : Massive. Lots of questions asked and answered.
+Ease of Use : As difficult as you want to make it.
+Best For : Large and small projects. Also a great way to learn how to work with Node.
+
+Framework : Sails
+Performance : Medium. Focus is on improving developer's efficiency over performance.
+Community : Large. A well established project that has been around for a long time.
+Ease of Use : Easy. Blueprints make it very easy to get an API up and running with minimal coding.
+Best For : Medium-sized projects that need to get off the ground quickly.
+
+Framework : Meteor
+Performance : Slower. Focus is on standing up/prototyping a project very quickly.
+Community : Smaller but vibrant and growing..
+Ease of Use : Easy. Blueprints make it very easy to get an API up and running with minimal coding.
+Best For : Standing up small projects quickly. Getting your hands dirty with a new tool.
+
+Framework : Loopback
+Performance : Medium
+Community : Small, but those who love it really love it.
+Ease of Use : Easy but doesn't provide as much up front.
+Best For : Building an enterprise-scale API for a separate front end.
+
+//...................................Next()..........................................
+var express = require('express');
+const path = require('path');
+var app = express();
+var PORT = 3001;
+const multer  = require('multer');
+//with middleware
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+  })
+   
+  var upload = multer({ storage: storage })
+
+app.use('/', function(req, res, next){
+	res.status(200).send("Status Working");
+next();
+});
+
+app.get('/', function(req, res){
+	console.log("Home Page!")
+	res.send();
+});
+
+app.listen(PORT, function(err){
+	if (err) console.log(err);
+	console.log("Server listening on PORT", PORT);
+});
+
+//...................................Passport..........................................
+
+var express = require('express');
+var app = express();
+const mongoose = require("mongoose");
+
+/* Requiring body-parser package
+to fetch the data that is entered
+by the user in the HTML form.*/
+const bodyParser = require("body-parser");
+
+// Telling our Node app to include all these modules
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose =
+	require("passport-local-mongoose");
+
+// Allowing app to use body parser
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+	secret: "long secret key",
+	resave: false,
+	saveUninitialized: false
+}));
+
+// Initializing Passport
+app.use(passport.initialize());
+
+// Starting the session
+app.use(passport.session());
+
+// Connecting mongoose to our database
+mongoose.connect(
+'mongodb://localhost:27017/userDatabase', {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+});
+
+/* Creating the schema of user which now
+include only email and password for
+simplicity.*/
+const userSchema = new mongoose.Schema({
+	email: String,
+	password: String
+});
+
+/* Just after the creation of userSchema,
+we add passportLocalMongoose plugin
+to our Schema */
+userSchema.plugin(passportLocalMongoose);
+
+// Creating the User model
+const User = new mongoose.model("User", userSchema);
+
+/* After the creation of mongoose model,
+we have to write the following code */
+passport.use(User.createStrategy());
+
+// Serializing and deserializing
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Handling get request on the home route
+app.get("/", function (req, res) {
+
+	/* req.isAuthentcated() returns true or
+	false depending upon whether a session is
+	already running or not. */
+	if (req.isAuthenticated()) {
+
+		/* if request is already authenticated,
+		i.e. user has already logged in and
+		there is no need to login again or
+		we can say, session is running.*/
+		res.send(
+"You have already logged in. No need to login again");
+	}
+
+	else {
+
+		// If the user is new and
+		// no session is Running already
+		res.sendFile(__dirname + "/index.html");
+	}
+})
+
+
+// Handling get request on login route
+app.get("/login", function (req, res) {
+	if (req.isAuthenticated()) {
+
+		/* If request is already authenticated,
+		i.e. user has already logged in and
+		there is no need to login again. */
+		res.send(
+"You have already logged in. No need to login again");
+	}
+	else {
+
+		/* if session has expired, then user
+		need to login back again and
+		we will send the Login.html */
+		res.sendFile(__dirname + "/login.html");
+	}
+})
+
+/* Registering the user for the first time
+handling the post request on /register route.*/
+app.post("/register", function (req, res) {
+	console.log(req.body);
+	var email = req.body.username;
+	var password = req.body.password;
+	User.register({ username: email },
+		req.body.password, function (err, user) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				passport.authenticate("local")
+				(req, res, function () {
+					res.send("successfully saved!");
+				})
+			}
+		})
+})
+
+// Handling the post request on /login route
+app.post("/login", function (req, res) {
+	console.log(req.body);
+
+	const userToBeChecked = new User({
+		username: req.body.username,
+		password: req.body.password
+	});
+
+	// Checking if user if correct or not
+	req.login(userToBeChecked, function (err) {
+		if (err) {
+			console.log(err);
+			res.redirect("/login");
+		}
+		else {
+			passport.authenticate("local")
+				(req, res,function () {
+				User.find({ email: req.user.username },
+					function (err, docs) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+
+					//login is successful
+					console.log("credentials are correct");
+					res.send("login successful");
+						}
+					});
+			});
+		}
+	})
+})
+
+// Allowing app to listen on port 3000
+app.listen(3000, function () {
+	console.log("server started successfully");
+})

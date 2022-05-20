@@ -1,0 +1,1015 @@
+Promise is use to handle asynchronous operation in javascript
+
+const promisedata = new Promise((resolved,reject)=>{
+
+    setTimeOut(()=>{
+
+    const readFile =  fs.readFile('abc.txt',function(req,res)
+    {
+            return readFile;
+    })
+    },2000)
+});
+
+promisedata.then((data)=>{
+    console.log(data);
+}).catch((error)=>{
+    console.log(error);
+})
+
+
+//-------------------------------async-------------------------------------------------
+function syncTask(value){
+    return Promise((resolved,reject)=>{
+        setTimeout(()=>{
+            resolved(value);
+        },100)
+    })
+}
+
+async function main(){
+
+    return [1,2,3,4].map((val)=>{
+        const v = await syncTask(val);
+        return v * 2;
+    })
+
+}
+
+main.then((val)=>{
+    console.log(val);
+}).catch((err)=>{
+    console.error(err);
+})
+
+//-------------------------------connection-------------------------------------------------
+
+const mongoose=require('mongoose');
+const connection = mongoose.connect('https://localhost:8081');
+const db = mongoose.connection;
+db.on('open',function(req,res){
+    console.log('connection make');
+})
+
+//--------------------mongoclient-----------------------------------------------
+const MongoClient = require('mongodb');
+const url = 'mongodb://localhost:8081/';
+MongoClient.connect(url,(err,client)=>{
+    if(err){
+
+    }else{
+
+    }
+})
+
+
+//--------------------conection with express-----------------------------------------------
+
+const express = require('express');
+const app = express();
+PORT =8081;
+
+app.get('/', function(req,res){
+    res.send();
+})
+app.listen(PORT,()=>{
+    console.log('connection established'+ `{PORT}`);
+})
+
+//---------------------------------------------connection witout express----------------------
+
+const http = require('http');
+http.createServer(function(req,res){
+    res.writeHead(200, {'Content-type' : 'text/plain'})
+    res.write('hello word');
+}).listen(3000);
+
+//---------------------------------------------authenticate-----------------------------------
+
+
+const doSomething1 = () => {
+    try {
+
+    }
+    catch(err)
+    {
+        throw new Error(err.message)
+    }
+}
+
+//---------------------------------------------Schema-----------------------------------
+//A schema is a JSON object that defines the the structure and contents of your data.
+
+const mongoose = require('mongoose');
+const { stringify } = require('querystring')
+const { isNumber } = require('util')
+const Schema = mongoose.Schema;
+new Schema({
+    title : String,
+    name :  String,
+    body :  String,
+    comments : [{
+        body : String,
+        date : Date
+    }],
+    status : Boolean,
+    meta : {
+        part1 : Number,
+        part2 : Number
+    }
+})
+
+
+//---------------------------------------------Body Parser/Query String-----------------------------------
+//Body-parser is the Node. js body parsing middleware. It is responsible for parsing the incoming request bodies in a middleware before you handle it.
+
+//The Node.js Query String provides methods to deal with query string. It can be used to convert query string into JSON object and vice-versa.
+
+//-------------------------------------------await/async-------------------------------------------------
+function resolveAfter2Seconds() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve('resolved');
+      }, 2000);
+    });
+  }
+  
+  async function asyncCall() {
+    console.log('calling');
+    const result = await resolveAfter2Seconds();
+    console.log(result);
+    // expected output: "resolved"
+  }
+  
+  asyncCall();
+//-------------------------------------------Promise-------------------------------------------------
+
+//Es6 is ECMAScript 6. it is created to standard javascript and 6th version of ECMAScript, 6th version
+//isNumber() //check Number
+Math.sign(3)
+Math.sign(-3)
+d1 = new Date()
+d2 = new Date();
+if(d1.getTime() ===d2.getTime()){}
+
+//-------------------------------------------Event emitter-------------------------------------------------
+/*
+1) If you worked with JavaScript in the browser, you know how much of the interaction of the user is handled through events: mouse clicks, keyboard button presses, reacting to mouse movements, and so on.
+
+2) On the backend side, Node.js offers us the option to build a similar system using the events module.
+
+This module, in particular, offers the EventEmitter class, which we'll use to handle our events.
+
+Example :
+const EventEmitter = require('events');
+const eventEmitter = new EventEmitter();
+
+=>This object exposes, among many others, the on and emit methods.
+=>emit is used to trigger an event
+=>on is used to add a callback function that's going to be executed when the event is triggered
+For example, let's create a start event, and as a matter of providing a sample, we react to that by just
+
+Example :
+eventEmitter.on('start', () => {
+  console.log('started');
+});
+
+
+eventEmitter.emit('start');
+the event handler function is triggered, and we get the console log.
+You can pass arguments to the event handler by passing them as additional arguments to emit():
+
+eventEmitter.on('start', number => {
+  console.log(`started ${number}`);
+});
+eventEmitter.emit('start', 23);
+eventEmitter.on('start', (start, end) => {
+  console.log(`started from ${start} to ${end}`);
+});
+eventEmitter.emit('start', 1, 100);
+
+
+=>The EventEmitter object also exposes several other methods to interact with events, like
+=>once(): add a one-time listener.
+=>removeListener() / off(): remove an event listener from an event.
+=>removeAllListeners(): remove all listeners for an event.
+
+Example : 
+const EventEmitter = require('events');
+const eventemitter = new EventEmitter();
+
+eventemitter.on('ok', function(req,res){
+    console.log('trigger events');
+});
+eventemitter.emit('ok');
+
+//==================REVRSE OF ARRAY==================
+const arr = [1,2,3,4,5,6];
+const new_arr = [];
+len = arr.length;
+
+function reverseArr(input)
+{
+    for(i=len-1; i>=0 ; i--){
+        new_arr.push(arr[i]);
+    }
+    return new_arr;
+}
+reverseArr(arr);
+
+//==================Node.js Third Party Modules==================
+
+=>Node 3rd party modules is a module or package which is developed and manitained by 3rd parties.
+=>Millions of 3rd party node modules/packages which are freely available on NPM Registry.
+=>You can install node 3rd party modules/packages and use them to add functionality to your projects.
+=>Node 3rd party modules can be installed using NPM (Node Package Manager).
+
+
+//==================Error Hnadling in nodejs==================
+An error object is an object that is either an instance of the Error, or extends the Error class.
+throw new Error('Ran out of coffee')
+
+
+//==================Node.js Core Modules: (Built-In Modules)=================
+Core module are modules which is install by default called code modules.
+
+1)OS Module // const os = require("os") 
+2)Provides basic operating-system related utility functions.
+3)Path Module //  const path = require("path")
+4) Domain Module // const domain = require("domain")
+
+
+//==================Error first callback - Node.js=================
+=>Error first callback - The first argument of the callback is reserved for an error object.
+
+A callback function is called error first callback in node, where
+=> 1st argument of the callback is reserved for an error object, If an error occurred.
+=> 2nd argument of the callback is reserved for any successful response data. If no error occurred.
+
+
+
+const fs = require('fs');
+
+fs.readFile('abc.txt',function(error,data){
+    if(error){
+        throw error;
+    }else{
+        console.log(data);
+    }
+})
+
+//==================Node.js debug=================
+node debug app.js
+
+npm install node-inspector
+node-debug app.js
+
+//==================Node PM2=================
+
+PM2 is Process Manager for Node.js applications.
+PM2 has built-in Load Balancer.
+PM2 keeps node.js applications running on production server.
+PM2 automatically restart server if it crashes or close, without any downtime.
+PM2 helps you to manage application logging, monitoring, and clustering.
+Following are some very useful commands
+
+
+Install PM2:
+=>npm install pm2 --save
+Start Server:
+=>pm2 start app.js
+Monitor PM2:
+=>pm2 monit
+
+pm2 start app.js -i max
+=>Display Logs:
+pm2 logs
+=>List All Processes:
+pm2 list
+=>Stop All Processes:
+pm2 stop all
+
+//==================callback function================
+Callback function is a function passed into another function as a argument. which is then invoked inside
+outer functions to complete some kind of action.
+
+function greeting(name)
+{
+    console.log(name);
+}
+
+function processUserInput(callback){
+    let name="aniPlease enter your name";
+    callback(name);
+}
+processUserInput(greeting);
+
+//==================callback hell problem resolved================
+
+1)
+const add =  function (a,b, callback){
+        setTimeOut(()=>{
+            callbacl(a,b);
+        },2000)
+}
+
+add(1,2,(sum1)=>{
+    add(3,sum1,(sum2)=>{
+        add(4,sum2,(sum4)=>{
+            add(5, sum4,(sum6)=>{
+                add(6,sum5,(sum6)=>{
+                    add(7,sum6,(sum7)=>{
+
+                    })
+                })
+            })
+        })
+    })
+})
+//=================handle callbackhell probblem===============
+//Promise
+
+const addPromises =(a,b)=>{
+
+    return new Promises((resolve,reject)=>{
+         setTimeOut(function(a,b){
+            resolve(a+b);
+        },3000)
+    })   
+}
+
+addPromises(1,2)
+.then((sum1)=>{
+    return addPromises(2,sum1);
+})
+.then((sum2)=>{
+    return addPromises(2,sum2)
+})
+.then((sum3)=>{
+    return addPromises(3,sum3)
+})
+
+
+//================consuming the promise using async/await===============
+
+(async()=>{
+   var sum1 =  await addPromises(1,2);
+   var sum2 =  await addPromises(3,sum1);
+   var sum3 =  await addPromises(4,sum2);
+
+})();
+
+//================compare two objects===============
+
+JSON.stringfy(obj1) == JSON.stringfy(obj2)
+_is.isEqual(obj1,obj2)
+
+//================Class===============
+
+function Student(name,rollno,grade,section){
+    this.name = name;
+    this.grade = grade;
+    this.section = section;
+    this.rollnumber = rollnumber;
+}
+
+let student1 = new Student('anil','gupta',1,200);
+student1.getDetails();
+
+class Student {
+        constuctor(name,rollno,grade,section){
+            this.name = name;
+            this.grade = grade;
+            this.section = section;
+            this.rollnumber = rollnumber;
+        }
+}
+let student1 = new Student('anil','gupta',1,200);
+student1.getDetails();
+
+//================Object Destructuring===============
+object destructuring is new way in which extract element from an object and array.
+
+
+//================================Let & Const & Var==============================================
+
+=>var declarations are globally scoped or function scoped while let and const are block scoped.
+
+=>var variables can be updated and re-declared within its scope; let variables can be updated but not re-declared; const variables can neither be updated nor re-declared.
+
+=>They are all hoisted to the top of their scope. But while var variables are initialized with undefined, let and const variables are not initialized.
+
+=>While var and let can be declared without being initialized, const must be initialized during declaration.
+
+//===============================Middleware==============================================
+
+=>Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
+
+=>Middleware functions can perform the following tasks:
+
+=>Execute any code.
+=>Make changes to the request and the response objects.
+=>End the request-response cycle.
+=>Call the next middleware function in the stack.
+
+
+Type of middleware :
+a) Application level 
+b) Router level
+c) Error handling
+d) Build-in 
+e) Third party middle ware
+
+--------------------------Application-level middleware : 
+Bind application-level middleware to an instance of the app object by using the app.use() and app.METHOD() functions
+
+const express = require('express');
+const app = express();
+app.use((req,res,next) => {
+    console.log('this is console.log');
+        next();
+});
+
+
+--------------------------Router-level middleware :
+Router-level middleware works in the same way as application-level middleware, except it is bound to an instance of express.Router().
+
+const express= require('express');
+const app = express();
+
+const router = express.Router();
+router.use('/',function(req,res,next){
+    console.log('============');
+    next()
+})
+
+--------------------------Error-handling middleware
+error handling middle ware is middleware which acept 4 parameter
+app.use(/',function(err, req,res,next)
+{    
+    res.status(200).send('something broke');
+})
+
+--------------------------Built-in middleware
+
+=>Express has the following built-in middleware functions:
+
+=>express.static serves static assets such as HTML files, images, and so on.
+
+=>express.json parses incoming requests with JSON payloads. NOTE: Available with Express 4.16.0+
+
+=>express.urlencoded parses incoming requests with URL-encoded payloads. NOTE: Available with Express 4.16.0+
+
+
+--------------------------Third-party middleware
+
+npm install cookie-parser
+
+const express = require('express')
+const app = express()
+const cookieParser = require('cookie-parser')
+
+// load the cookie-parsing middleware
+app.use(cookieParser())
+
+
+
+#===================================Authentication in nodejs===========================================
+1)Authentication : Authentication is a process of verifying user identifications through user credential.
+
+2)Authorization : Autherization process are begins if credentials process are legitiminate.
+
+3)JWT Token : JWT Specifies a compact and self-contained method for communicating information as JSON object between two parties. i
+it is signed this information can be checked and trusted, JWT can be signed using secret (Using HMAC algoritham) or RSA.
+
+4) Validate require input
+5) parse require body data
+6) find user email exist or not
+7) hash password using bcrypt js
+8) create a payload using JWT
+
+
+//------------------------------server.js-----------------------------
+server.js
+
+const express = require('express');
+const app  = express();
+app.use(express.json());
+
+PORT = 8081;
+
+app.listen(PORT, function(req,res){
+    console.log('server is running on port no ' + `{PORT}`);
+})
+
+//------------------------------model/user.js-----------------------------
+const mongoose = require('mongoose');
+const userSchema = mongoose.Schema({
+    fistname : string,
+    lastname : string,
+    email: string
+})
+
+module.exports = mongoose.model("user", userSchema)
+//------------------------------register.js-----------------------------
+const User = require('./model/user');
+app.post('/register', async function(req,res){
+
+    if(req.body){
+
+        const userData = {
+            fisrtname : req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email
+        }
+
+        const user = await User.create({
+            firstname,
+            lastname,
+            email
+        })
+
+        //
+        const token = jwt.sign(
+        {
+            user_id: user._id,
+            email:email
+        },
+        process.env.TOKEN_KEY,
+        {
+            expiresIn:"2h"
+        }
+        );
+
+        user.token = token;
+        res.status(200).json(user);
+    }catch(err){
+        console.log(err);
+    }
+
+    }
+});
+
+//------------------------------login.js-----------------------------
+
+app.post('/login', async function(req,res){
+    try{
+        const { email, password} = req.body;
+        if(!(email && password)){
+            res.status(400).send('all input  required');
+        }
+
+       conat user =  await User.findOne({email})
+
+       if(user && (await bcrypt.compare(password, user.pasword))){
+
+        jwt.sign({
+           user_id:user._id,
+           email: email 
+        },
+        { process.env.TOKEN_KEY },
+        {
+            expiresIn: "2h"
+        }
+        );
+
+        user.token : token;
+
+        res.status(200).json(user);
+       }
+
+    } else {
+        res.status(200).send("Invalid credential");
+    }
+
+
+    }catch(e){
+
+    }
+})
+
+//------------------------------------------middleware/auth.js------------------------------------
+const jwt = require('jsonwebtoken');
+const config = process.env;
+
+const verifyToken = (req,res,next) =>{
+    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+
+    if(!token) {
+        return res.stataus(403).send("a token is required for authentications");
+    }
+
+    try{
+       const decoded =  jwt.verify(token,config.TOKEN_KEY);
+       req.user = decoded;
+
+    } catch(err) {
+        retuen res.status(401).send('Invalid Token');
+    }
+    return next();
+}
+
+module.exports = verifyingToken;
+
+//------------------------------------------app.js------------------------------------
+const auth = require('./middleware/auth');
+app.post('/welcome', auth , function(req,res){
+    res.status(200).send("welcome");
+})
+
+
+//------------------------------------------Arrow Function------------------------------------
+1) Arrow functions – a new feature introduced in ES6 – enable writing concise functions in JavaScript.
+2) arrow functions do not have their own this.
+
+let user = {
+        name : "anilkumargupta",
+
+        gfg1:()=>{
+
+            console.log("this is second function1"+this.name);
+        },
+        gfg2()
+        {
+            console.log("this is second function2"+this.name);
+        }
+}
+
+user.gfg1();
+user.gfg2();
+
+3)Arguments objects are not available in arrow functions, but are available in regular functions.
+
+let user1 ={
+  show()
+  {
+    console.log(arguments);
+  }
+  
+}
+user1.show(1,2,3,4,5);
+
+//-------------------------------------------------------------------------------------------------------
+let user2 ={
+  show:()=>
+  {
+    console.log(arguments);
+  }  
+}
+user2.show(1,2,3,4,5); //Error : Arguments is not define
+
+4) Arrow functions can never be used as constructor functions. Hence, they can never be invoked with the new keyword.
+
+let add = function(x, y){ console.log(x + y);}
+new add(2,3); //Output 5
+
+
+let add = (x, y) => console.log(x + y);
+new add(2,3); //Uncaught TypeError: add is not a constructor
+
+//-----------------------------------Spread Operator-------------------------------
+=>Rest parameter is used to take a vriable number of arguments and turn into an array whiel SPREAD Operator  takes array and objects and spreads it.
+=>Rest parameter is used in function declaration where as the spread operator is used in function calls.
+=>Rest parameter should always be used at last parameter of a function.
+
+-----------------------------Example : 1 Rest parameter
+
+function arrayFun(...args){
+    let sumOfArgs = 0;
+    let i=0;
+    while(i < args.length){
+        sumOfArgs +=args[i];
+        i++;
+    }
+    return sumOfArgs;
+}
+
+arrayFun([1,2,3,4,5]); // return 15
+
+
+-----------------------------Example : 2 Spread parameter : 
+let array1 = [2,3,4,5,6]
+let cloneArray = [...array1]
+console.log(cloneArray); //2,3,4,5,6
+
+
+
+//-----------------------------Hosting/function/scope-------------------------------
+1) Hosting is default behaviour of javascript where all variable and functions declared and moved on top.
+scope can be local and global.
+
+Example : 
+a=1;
+alert("a=" + a);
+var a;
+
+
+2) variable initialized are not hosted , only variable declaration are hosted.
+
+Example : 
+var x;
+console.log(x);
+x=23;
+
+3)to avoid Hosting you can run javascript strict mode bu using strict mode.
+
+user strict
+x=23;  // given an error since x is not declared
+var x;
+
+
+//-----------------------------how many way create objectwrite code------------------------
+there are 4 ways create object:
+1) Object Literal
+
+Example: 
+
+var car = {
+    model : 'bmw',
+    color: 'red',
+    price: 210
+}
+
+console.log(JSON.stringfy(car))
+car.type='manual';
+
+
+2) New Operator or constructor
+
+function Car(MODEL,color){
+    this.model = model;
+    this.color = color;
+}
+
+var c1 = new Car('BMW','red');
+
+2) Object.create method
+
+var Car= {
+    model:'Bmw',
+    COLOR: 'RED'
+}
+
+Var ElectricCar = object.create(Car)
+console.log(ElectricCar.model);
+
+4) Class : 
+
+class A{
+
+    constructor(model,color){
+        this.model = model,
+        this.color: color
+    }
+
+    getInfo(){
+         console.log(this.model + ""+ this.color);
+    }       
+}
+
+var obj1 = new A('bmw','red')
+obj1.getInfo();
+
+//-----------------------------CORS----------------------
+
+//How to use CORS in Node.js with Express
+
+==> Node.js is an open-source and cross-platform runtime used when executing JavaScript code on the server-side. One of the popular Node.js server frameworks is Express. Implementing CORS in Node.js helps you access numerous functionalities on the browser.
+
+==> CORS stands for Cross-Origin Resource Sharing. It allows us to relax the security applied to an API. 
+==> This is done by bypassing the Access-Control-Allow-Origin headers, which specify which origins can access the API.
+
+
+==>The client and server have a different origin from each other, i.e., accessing resources from a different server. In this case, trying to make a request to a resource on the other server will fail.
+
+==>This is a security concern for the browser. CORS comes into play to disable this mechanism and allow access to these resources. CORS will add a response header access-control-allow-origins and specify which origins are permitted. CORS ensures that we are sending the right headers.
+
+Example :
+const cors = require('cors');
+app.use(cors({
+    origin: 'https://www.section.io'
+}))
+
+//---------------------------------------------------
+Question : What should used we can prevent update in object.
+Solution : 
+1) Const // add,update,delete , not assign
+2) preventExtensions //update/delete , not add , ssign
+3) seal  // allow update , not add,delete,assign
+4) freeze // not allow crud and assign also
+
+
+//--------------------------------------object destructuring-------------
+
+---------------------Example:1
+Object destructuring is new way to extract element from array.
+
+const classDetails = {
+    strength : 78,
+    blackBoard :1,
+    branches:1
+}
+const [Strength,BlackBoard,Branches] = [classDetails.strength,classDetails.blackBoard,classDetails.branches];
+
+----------------------Example:2
+let a, b;
+[a, b] = [10, 20];
+console.log(a);
+
+//-----------------------------------Call() / bind() / applu() --------------------------------
+Call() : Call method allow an object to use the method of another objects.
+call invokes the function and allows the pass in arguments one by one.
+Apply invokes the function and allows ypu to pass as an array.
+Blind return a new function, allowing you to pass in this array and any number of arguments.
+
+//---------------------------------Example-1: Call()
+
+function sayHello(){
+    return "hello" + this.name;
+}
+var obj = {name : "anilgupta"}
+sayHello.cal(obj)
+
+//--------------------------------Example-2: apply()
+function sayHello(){
+    return "hello" + this.name;
+}
+var obj = {name : "anilgupta"}
+sayHello.apply(obj , ["awesome"])
+
+//--------------------------------Example-3: bind()
+const person = {
+  firstName:"John",
+  lastName: "Doe",
+  fullName: function () {
+    return this.firstName + " " + this.lastName;
+  }
+}
+const member = {
+  firstName:"Hege",
+  lastName: "Nilsen",
+}
+let fullName = person.fullName.bind(member);
+
+
+//-----------------------------------Map() / Filter() / Apply() --------------------------------
+# Map: 
+
+=> Map() return new array, it does not chnage size of array, used value of array making new a new one.
+
+    function triple(n){
+        return n*3;
+    }
+
+    var new_arr = arr.map(triple)
+    console.log(new_arr);
+
+
+# Reduce:
+it reduces all element of array into single value by repeatelly applying a function.
+The reduce() method executes a reducer function for array element.
+The reduce() method returns a single value: the function's accumulated result.
+The reduce() method does not execute the function for empty array elements.
+The reduce() method does not change the original array.
+
+function product(a,b){
+    return a*b;
+}
+arr = new Array(1,2,3,4,5,6);
+arr.reduce(product);
+
+# Filter:
+1) it return new array.
+2) can manipulate size of new array, return based on conditions.
+
+Example :
+
+arr = new Array(1,2,3,4,5,6);
+var new_arr = arr.filter(function(x){
+    return x%2 ==0;
+})
+
+console.log(new_arr);
+
+//-----------------------------------Type of loop--------------------------------
+1)While
+2)do...while
+3)for
+4)for...In
+5)for...of
+
+//---------------------------------Scope/Scope chain--------------------------------
+1)Global scope
+Scope of javascript , determine the accessibility of variables and functions at various parts in once's code.
+2)Local scope or function scope
+3)Block Scope
+
+//---------------------------------Object.assign()-------------------------------
+Object.assign() is used to cloning the object.
+Object.assign() is used to merge objects with same properties.
+
+Object.assign(target, ...sources)
+
+var obj1 = {a: 10 , b: 10, c: 20}
+var obj2 = {b: 20, c: 20}
+var obj3 = {c: 30}
+
+Object.assign({}, obj1,obj2,obj3) // Object { a: 10, b:20 , c:30}
+
+
+
+//--------------------------------ES5  &&   ES6-------------------------------
+
+=>ES5 :
+1: It was introduced in 2009.
+2: There are only one way to define the variables by using the var keyword.
+3: Object manipulation is time-consuming in ES5.
+4: It provides a larger range of community supports than that of ES6
+5: ES5 supports primitive data types that are string, number, boolean, null, and undefined.
+6: In ES5, both function and return keywords are used to define a function.
+
+=>ES6 :
+1: It was introduced in 2015.
+2: There are two new ways to define variables that are let and const.
+3: Object manipulation is less time-consuming in ES6.
+4: It provides a less range of community supports than that of ES5
+5: In ES6, there are some additions to JavaScript data types. It introduced a new primitive data type 'symbol' for supporting unique values.
+6: An arrow function is a new feature introduced in ES6 by which we don't require the function keyword to define the function.
+
+//------------------------------Object protoypes-----------------------------------
+
+All javascript object inherit protoypes from prototype .
+=>Date object
+=>Math object
+=>Array object
+
+=>Every prototype inherit properties and methods from Object.prototype.
+
+=>prototype is a blue print of an object. prototype allow us to use properties and methods on an object
+event if properties and method do not exist on current object.
+
+//-----------------------------Node Js Archtecture-----------------------------
+1) Node Js Archtecture :
+
+=>Node runtime a several dependencies, most important once v8 javascript engine and libuv, NOw we said before that node is javascript runtime based on google v8 engine. so that appreciate dependencies.
+
+=>Node no way to understand javascript code therefore v8 is fundamental part in nodejs architecture.
+V8 engine is convert javascript code to machine code that computer can understand.
+
+=>but as not enoff to create whole server side framework like node and so that why we also have libuv in node.
+Libuv is open source library which have strong focus on asyncgronous I/O, so input output. 
+this layers gives  now access to you computer operation system,file system and networking and more.such that
+
+=>libuv also implement to extremently important feature of node js, which are event loop and also thread pool.
+eventloop is responsible handle easy task linke executing callback and network I/O, while threadpoool is handle heavy task like file access compression.
+
+=>Libuv is complete in c+++ and not in javascript and v8 uses c++ program beside javascript.
+Threfore node itsef is a program which in c++ and javascript. not just in javascript as per my aspect.
+
+=>Node js all these library togather no matter in c+++ and javascript and gives developere access to their function in pure javascript.
+
+=>these architecture allow pure 100%  javascript code running in node js is still acccess functions like which behind the sceans actully imlemented libuv and other libraray in c++ language.
+
+speaking on other libraray 
+http-parser,
+c-errors,
+openssl 
+and zlib
+
+Threadpool
+
+//-----------------------------HOW NODE JS WORK / PROCESS / THREAD POOL----------------------------
+1) Where we used node in computer, its means Node process running in that computer, process just a program
+in execution already leann that nodejs is basically c++ program which therefore start a process when its running.
+
+2) in this process nodejs runs so calls single thread, thread basically sequence of instruction.
+3)  Node runs in just one thread which makes is easy bloack node applications,but something really important feature of node.
+3)So again if you run node application it will run just on single thread no mattter 10 users or 10 million of users.
+4)Do you need very carefull about not blocking  that thread, ofcourse take care of that a lot project in this course.
+
+Digram:
+Single Thread --> Initialize program --> execute top-levelcode --> require modules --> register event callbacks
+
+when program is initialized all top level code execute which means all code that is not inside any callback function also all the module required and all callback registered. just like once http server.then after eventloop finalyy running.
+
+eventloop most of the work have done in your app so its really heart of entire node js architecture.
+but here some task to heavy their to expensive to be executed in event loop because they were block single thread. and so that threadpool concept comes which just eventloop providede nodejs by libuv libraray.
+threadpool give 4 additional thread they are compltly seperate from main single thread , and we can actully configure 128 but usually these for as now.
+
+these thread togather in threadpool in the eventloop automatic upload haevy task to threadpool and all this happend automatic behind the sceans it nnot develper whose decide the to go in the threadpool.
+To expensive task like :
+=> File syetem api
+=> cryptography
+=> compression
+=> dns lookup
+
+which basicaaly match web domens today corresponding real ip address so this is stuff they most easy block
+main thread and shown not take care automatically uploading them in the threadpool. they don't  bock evenetloop.
+
+//--------------------------EventLoop----------------------------
+1) All about event loop which is heart of eventloop, all application code there inside callback function executed so basically all code not top level code which run in the Event loop.
+
+some part might be uploaded in thread-pool but its evenetloop takecares of all these.
+Eventloop is heart of node architecture, nodejs all build run callback functions so functions  as soon as some work finished some time in the future.
+
+Nod uses event driven architecuture which is somethingy
